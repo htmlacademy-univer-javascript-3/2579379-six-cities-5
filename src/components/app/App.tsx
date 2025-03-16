@@ -1,11 +1,11 @@
-import { MainPageComponent } from '../../pages/main-page/MainPage';
+import { Main } from '../../pages/main-page/Main';
 
 type TAppProps = {
   cardsCount: number;
 }
 
 const App = ({cardsCount}: TAppProps) => (
-  <MainPageComponent cardsCount={cardsCount} />
+  <Main cardsCount={cardsCount} />
 );
 
 export {App};

@@ -1,10 +1,10 @@
 import { Card } from '../../components/card/Card';
 
-type TMainPgeProps = {
+type MainProps = {
   cardsCount: number;
 }
 
-const MainPageComponent = ({cardsCount} : TMainPgeProps) =>
+const Main = ({cardsCount} : MainProps) =>
   (
     <div className="page page--gray page--main">
       <header className="header">
@@ -111,4 +111,4 @@ const MainPageComponent = ({cardsCount} : TMainPgeProps) =>
     </div>
   );
 
-export {MainPageComponent};
+export {Main};
