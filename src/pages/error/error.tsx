@@ -11,7 +11,7 @@ const Error = () =>
       <h1 style={{padding: '15px 15px',
         borderRadius: '30px'}}
       >
-        404 This page does&apos;t exist :c
+        404 This page dosen&apos;t exist :c
       </h1>
       <div style={{backgroundColor: 'skyblue',
         width: '30px',
