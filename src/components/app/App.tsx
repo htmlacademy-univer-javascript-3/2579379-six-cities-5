@@ -7,16 +7,18 @@ import { Offer } from '../../pages/offer/Offer';
 import { Error } from '../../pages/error/error';
 import { AuthorizationStatus } from '../../consts/consts';
 import { PrivateRoute } from '../private-route/private-route';
+import { OfferType } from '../../consts/consts';
 
 type AppProps = {
-  cardsCount: number;
+  //cardsCount: number;
+  offers: OfferType[];
 }
 
-const App = ({cardsCount}: AppProps) => (
+export const App = ({offers}: AppProps) => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoute.Main}
-        element={<Main cardsCount={cardsCount} />}
+        element={<Main offers={offers} />}
       />
       <Route path={AppRoute.Login}
         element={<Login/>}
@@ -25,16 +27,16 @@ const App = ({cardsCount}: AppProps) => (
         path={AppRoute.Favorites}
         element={
           <PrivateRoute
-            authorizationStatus={AuthorizationStatus.NoAuth}
+            authorizationStatus={AuthorizationStatus.Auth}
           >
-            <Favorites />
+            <Favorites offers={offers}/>
           </PrivateRoute>
         }
       />
       <Route path={AppRoute.Offer}
-        element={<Offer/>}
+        element={<Offer offers={offers}/>}
       />
-      <Route path='*'
+      <Route path={AppRoute.NotFound}
         element={<Error/>}
       />
     </Routes>
@@ -42,4 +44,3 @@ const App = ({cardsCount}: AppProps) => (
   // <Main cardsCount={cardsCount} />
 );
 
-export {App};

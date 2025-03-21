@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import errorcat from './image/errorcat.png';
 
-const Error = () =>
+export const Error = () =>
   (
     <div style={{display: 'flex',
       flexDirection: 'column',
@@ -32,4 +32,3 @@ const Error = () =>
     </div>
   );
 
-export { Error };
