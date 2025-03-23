@@ -1,10 +1,11 @@
-import { OfferType, AppRoute } from '../../consts/consts';
+import { AppRoute } from '../../consts/consts';
+import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 
 type CardProps = {
   offer: OfferType;
-  onMouseHover(): void;
-  onMouseLeave(): void;
+  onMouseHover: () => void;
+  onMouseLeave: () => void;
 }
 
 export const Card = ({offer, onMouseHover, onMouseLeave}: CardProps) => {
@@ -14,10 +15,10 @@ export const Card = ({offer, onMouseHover, onMouseLeave}: CardProps) => {
       onMouseEnter={onMouseHover}
       onMouseLeave={onMouseLeave}
     >
-      {isPremium === true ?
+      {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
-        </div> : null}
+        </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`${AppRoute.BaseOffer}/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>

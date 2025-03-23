@@ -1,5 +1,5 @@
 import { Header } from '../../components/header/Header';
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 import { OffersList } from '../../components/offers-list/OffersList';
 
 type MainProps = {

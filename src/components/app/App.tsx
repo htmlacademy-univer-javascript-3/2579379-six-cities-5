@@ -7,10 +7,9 @@ import { Offer } from '../../pages/offer/Offer';
 import { Error } from '../../pages/error/error';
 import { AuthorizationStatus } from '../../consts/consts';
 import { PrivateRoute } from '../private-route/private-route';
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 
 type AppProps = {
-  //cardsCount: number;
   offers: OfferType[];
 }
 
@@ -29,7 +28,7 @@ export const App = ({offers}: AppProps) => (
           <PrivateRoute
             authorizationStatus={AuthorizationStatus.Auth}
           >
-            <Favorites offers={offers}/>
+            <Favorites offers={offers.filter((o) => o.isFavorite)}/>
           </PrivateRoute>
         }
       />

@@ -1,6 +1,5 @@
 import { Card } from '../card/Card';
-//import { Offers } from '../../mock/offers-mock';
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 import { useState } from 'react';
 
 type OffersListProps = {
@@ -8,7 +7,7 @@ type OffersListProps = {
 }
 
 export const OffersList = ({offers}: OffersListProps) => {
-  const [, setHover] = useState<string>(); //[hover, setHover]
+  const [, setHover] = useState<string | null>(null); //[hover, setHover]
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((item) => (
@@ -16,7 +15,7 @@ export const OffersList = ({offers}: OffersListProps) => {
           key={item.id}
           offer={item}
           onMouseHover={() => setHover(item.id)}
-          onMouseLeave={() => setHover(undefined)}
+          onMouseLeave={() => setHover(null)}
         />)
       )}
     </div>

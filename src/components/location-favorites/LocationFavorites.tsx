@@ -1,4 +1,4 @@
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 import { OffersList } from '../offers-list/OffersList';
 
 type LocationFavoritesProps = {

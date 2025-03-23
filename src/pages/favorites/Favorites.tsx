@@ -1,4 +1,4 @@
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 import { getLocationFaivoritesMap } from './utils';
 import { LocationFavorites } from '../../components/location-favorites/LocationFavorites';

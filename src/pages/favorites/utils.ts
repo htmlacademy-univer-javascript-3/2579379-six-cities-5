@@ -1,4 +1,4 @@
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 
 export const getLocationFaivoritesMap = (offersArray: OfferType[]): Map<string, OfferType[]> => {
   const faivoritesMap: Map<string, OfferType[]> = new Map();

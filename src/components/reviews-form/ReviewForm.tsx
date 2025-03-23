@@ -1,58 +1,35 @@
 import { ChangeEvent, useState } from 'react';
-import { FormData, REVIEW_MIN_LENGTH } from '../../consts/consts';
+import { REVIEW_MIN_LENGTH, ratingObject } from '../../consts/consts';
+import { FormData } from '../../types';
+import { Rating } from '../rating/rating';
 
 export const ReviewsForm = () => {
   const [formData, setFormData] = useState<FormData>({rating: 0, review: ''});
 
-  const isFormValid = !!formData.rating && !!formData.review.length && formData.review.length >= REVIEW_MIN_LENGTH;
+  const isFormValid = !!formData.rating && formData.review.length >= REVIEW_MIN_LENGTH;
 
-  const ratingObject = {
-    'terrible': 1,
-    'bad': 2,
-    'not bad': 3,
-    'good': 4,
-    'perfect': 5,
-  };
-
-  const handleChangeFeild = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeRadioFeild = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
-    if(event.target.type === 'radio') {
-      setFormData({...formData, [name]: Number(value)});
-      return;
-    }
-    setFormData({...formData, [name]: value});
+    setFormData({...formData, [name]: Number(value)});
   };
 
-  const renderRating = ([title, rating]: [string, number]) => (
-    <>
-      <input
-        className="form__rating-input visually-hidden"
-        id={`${rating}-stars`}
-        name="rating"
-        type="radio"
-        value={rating}
-        onChange={handleChangeFeild}
-        checked={formData.rating === rating}
-      />
-      <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={title}>
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-    </>
-  );
+  const handleChangeTextareaFeild = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+
+    setFormData({...formData, [name]: value});
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {Object.entries(ratingObject).map(renderRating)}
+        {Object.entries(ratingObject).map(([title, rating]) =><Rating key={title} title={title} rating={rating} isChecked={formData.rating === rating} handleChangeFeild={handleChangeRadioFeild}/>)}
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.review}
-        onChange={handleChangeFeild}
+        onChange={handleChangeTextareaFeild}
       >
       </textarea>
       <div className="reviews__button-wrapper">

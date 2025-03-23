@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Header } from '../../components/header/Header';
-import { OfferType } from '../../consts/consts';
+import { OfferType } from '../../types';
 import { AppRoute } from '../../consts/consts';
 import { ReviewsForm } from '../../components/reviews-form/ReviewForm';
 

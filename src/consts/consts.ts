@@ -4,6 +4,14 @@ export const MainComponentProps = {
   cardsCount: 5
 };
 
+export const ratingObject = {
+  'terrible': 1,
+  'bad': 2,
+  'not bad': 3,
+  'good': 4,
+  'perfect': 5,
+};
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -18,48 +26,3 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
-
-export type OfferType = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  city: City;
-  location: Location;
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
-  previewImage: string;
-}
-
-export type City = {
-  name: string;
-  location: Location;
-}
-
-export type Location = {
-  latitude: number;
-  longtitude: number;
-  zoom: number;
-}
-
-export type Comment = {
-  id: string;
-  date: string;
-  user: HostOrUser;
-  comment: string;
-  rating: number;
-}
-
-export type HostOrUser = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-}
-
-export type FormData = {
-  rating: number;
-  review: string;
-}
-
-//export { MainComponentProps, AppRoute, AuthorizationStatus };
