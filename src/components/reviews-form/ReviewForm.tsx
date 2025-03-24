@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { REVIEW_MIN_LENGTH, ratingObject } from '../../consts/consts';
 import { FormData } from '../../types';
-import { Rating } from '../rating/rating';
+import { Rating } from '../rating/Rating';
 
 export const ReviewsForm = () => {
   const [formData, setFormData] = useState<FormData>({rating: 0, review: ''});
