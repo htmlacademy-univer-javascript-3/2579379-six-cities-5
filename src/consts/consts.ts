@@ -1,18 +1,28 @@
-const MainComponentProps = {
+export const REVIEW_MIN_LENGTH = 50;
+
+export const mainComponentProps = {
   cardsCount: 5
 };
 
-enum AppRoute {
+export const ratingObject = {
+  'terrible': 1,
+  'bad': 2,
+  'not bad': 3,
+  'good': 4,
+  'perfect': 5,
+};
+
+export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
+  BaseOffer = '/offer',
+  NotFound = '*',
 }
 
-enum AuthorizationStatus {
+export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
-
-export { MainComponentProps, AppRoute, AuthorizationStatus };
