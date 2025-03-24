@@ -1,6 +1,6 @@
 export const REVIEW_MIN_LENGTH = 50;
 
-export const MainComponentProps = {
+export const mainComponentProps = {
   cardsCount: 5
 };
 

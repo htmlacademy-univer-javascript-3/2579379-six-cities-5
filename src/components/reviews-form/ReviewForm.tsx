@@ -8,13 +8,13 @@ export const ReviewsForm = () => {
 
   const isFormValid = !!formData.rating && formData.review.length >= REVIEW_MIN_LENGTH;
 
-  const handleChangeRadioFeild = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeRadioFeild = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setFormData({...formData, [name]: Number(value)});
   };
 
-  const handleChangeTextareaFeild = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeTextareaFeild = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
 
     setFormData({...formData, [name]: value});
@@ -24,7 +24,7 @@ export const ReviewsForm = () => {
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {Object.entries(ratingObject).map(([title, rating]) =><Rating key={title} title={title} rating={rating} isChecked={formData.rating === rating} handleChangeFeild={handleChangeRadioFeild}/>)}
+        {Object.entries(ratingObject).map(([title, rating]) =><Rating key={title} title={title} rating={rating} isChecked={formData.rating === rating} onChangeFeild={handleChangeRadioFeild}/>)}
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"

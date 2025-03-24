@@ -40,6 +40,5 @@ export const App = ({offers}: AppProps) => (
       />
     </Routes>
   </BrowserRouter>
-  // <Main cardsCount={cardsCount} />
 );
 

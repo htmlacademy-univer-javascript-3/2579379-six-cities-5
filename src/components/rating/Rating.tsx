@@ -4,10 +4,10 @@ type RatingProps = {
   title: string;
   rating: number;
   isChecked: boolean;
-  handleChangeFeild: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeFeild: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Rating = ({title, rating, isChecked, handleChangeFeild}: RatingProps) => (
+export const Rating = ({title, rating, isChecked, onChangeFeild}: RatingProps) => (
   <>
     <input
       className="form__rating-input visually-hidden"
@@ -15,7 +15,7 @@ export const Rating = ({title, rating, isChecked, handleChangeFeild}: RatingProp
       name="rating"
       type="radio"
       value={rating}
-      onChange={handleChangeFeild}
+      onChange={onChangeFeild}
       checked={isChecked}
     />
     <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={title}>

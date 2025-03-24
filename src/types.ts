@@ -40,5 +40,3 @@ export type FormData = {
   rating: number;
   review: string;
 }
-
-//export { MainComponentProps, AppRoute, AuthorizationStatus };
