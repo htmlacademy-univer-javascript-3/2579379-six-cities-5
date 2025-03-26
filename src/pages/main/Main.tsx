@@ -1,14 +1,30 @@
 import { Header } from '../../components/header/Header';
-import { OfferType } from '../../types';
+import { City, OfferType } from '../../types';
 import { OffersList } from '../../components/offers-list/OffersList';
+import { Map } from '../../components/map/Map';
+//import { CENTERING_COORDINATES } from '../../components/map/Map.consts';
+import { useState } from 'react';
 
 type MainProps = {
-  //cardsCount: number;
   offers: OfferType[];
 }
 
-export const Main = ({offers} : MainProps) =>
-  (
+export const Main = ({offers} : MainProps) => {
+  const [activeCardId, setHoveredCardById] = useState<string | null>(null);
+  const [currentCity,] = useState<City>(
+    {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.3609553943508,
+        longitude: 4.85309666406198,
+        zoom: 8,
+      }
+    }
+  );
+
+  const selectedOffer = offers.find((offer) => offer.id === activeCardId);
+
+  return (
     <div className="page page--gray page--main">
       <Header/>
       <main className="page__main page__main--index">
@@ -16,7 +32,7 @@ export const Main = ({offers} : MainProps) =>
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
+              <li className="locations__item"> {/**позже декомпозировать*/}
                 <a className="locations__item-link tabs__item" href="#">
                   <span>Paris</span>
                 </a>
@@ -69,21 +85,18 @@ export const Main = ({offers} : MainProps) =>
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
-              {/* <div className="cities__places-list places__list tabs__content">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-              </div> */}
+              <OffersList offers={offers} onItemMouseHover={setHoveredCardById}
+                onItemMouseLeave={() => setHoveredCardById(null)}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map city={currentCity} points={offers} selectedPoint={selectedOffer}/>
+              </section>
             </div>
           </div>
         </div>
       </main>
     </div>
   );
-
+};
