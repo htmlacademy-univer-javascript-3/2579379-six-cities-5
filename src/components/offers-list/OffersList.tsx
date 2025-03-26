@@ -3,8 +3,8 @@ import { OfferType } from '../../types';
 
 type OffersListProps = {
   offers: OfferType[];
-  onItemMouseHover: (offerId: string) => void;
-  onItemMouseLeave: () => void;
+  onItemMouseHover?: (offerId: string) => void;
+  onItemMouseLeave?: () => void;
 }
 
 export const OffersList = ({offers, onItemMouseHover, onItemMouseLeave}: OffersListProps) => (
@@ -13,8 +13,8 @@ export const OffersList = ({offers, onItemMouseHover, onItemMouseLeave}: OffersL
       <Card
         key={item.id}
         offer={item}
-        onMouseHover={() => onItemMouseHover(item.id)}
-        onMouseLeave={() => onItemMouseLeave()}
+        onMouseHover={() => onItemMouseHover?.(item.id)}
+        onMouseLeave={() => onItemMouseLeave?.()}
       />)
     )}
   </div>
