@@ -3,25 +3,13 @@ import 'leaflet/dist/leaflet.css';
 import { City, Point } from '../../types';
 import { useEffect, useRef } from 'react';
 import { useMap } from '../../hooks/useMap';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from './Map.consts';
+import { DEFAULT_MARKER, CURRENT_MARKER } from './Map.consts';
 
 type MapPrors = {
   city: City;
   points: Point[];
   selectedPoint: Point | undefined;
 }
-
-const defaultMarker = leaflet.icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [27, 39],
-  iconAnchor: [20, 40],
-});
-
-const currentMarker = leaflet.icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [27, 39],
-  iconAnchor: [20, 40],
-});
 
 export const Map = ({city, points, selectedPoint}: MapPrors) => {
   const mapRef = useRef(null);
@@ -36,7 +24,7 @@ export const Map = ({city, points, selectedPoint}: MapPrors) => {
         }, {
           icon: (selectedPoint !== undefined &&
             point.title === selectedPoint.title) ?
-            currentMarker : defaultMarker,
+            CURRENT_MARKER : DEFAULT_MARKER,
         }).addTo(map);
       });
     }

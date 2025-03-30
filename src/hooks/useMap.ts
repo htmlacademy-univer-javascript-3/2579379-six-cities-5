@@ -28,7 +28,4 @@ export const useMap = (mapRef: MutableRefObject<HTMLElement | null>, city: City)
   }, [mapRef, city]);
 
   return map;
-  // hook state
-  // side effects
-  // cancel repeating initialization
 };

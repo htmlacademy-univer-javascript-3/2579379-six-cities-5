@@ -2,7 +2,6 @@ import { Header } from '../../components/header/Header';
 import { City, OfferType } from '../../types';
 import { OffersList } from '../../components/offers-list/OffersList';
 import { Map } from '../../components/map/Map';
-//import { CENTERING_COORDINATES } from '../../components/map/Map.consts';
 import { useState } from 'react';
 
 type MainProps = {
@@ -32,7 +31,7 @@ export const Main = ({offers} : MainProps) => {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item"> {/**позже декомпозировать*/}
+              <li className="locations__item">
                 <a className="locations__item-link tabs__item" href="#">
                   <span>Paris</span>
                 </a>
