@@ -16,7 +16,7 @@ export const LocationFavorites = ({city, favoriteOffers}: LocationFavoritesProps
       </div>
     </div>
     <div className="favorites__places">
-      <OffersList offers={favoriteOffers}/>
+      <OffersList offers={favoriteOffers} cardType='favorites' size={'small'}/>
     </div>
   </li>
 );

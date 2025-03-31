@@ -24,7 +24,7 @@ type Location = {
 
 export type Comment = {
   id: string;
-  date: string;
+  date: Date;
   user: HostOrUser;
   comment: string;
   rating: number;
@@ -45,3 +45,9 @@ export type Point = {
   title: string;
   location: Location;
 }
+
+export type MapClass = 'cities' | 'offer';
+
+export type CardClass = 'near-places' | 'cities' | 'favorites';
+
+export type CardSize = 'small' | 'medium';

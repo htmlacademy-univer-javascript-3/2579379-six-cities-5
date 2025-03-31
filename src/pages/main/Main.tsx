@@ -84,13 +84,13 @@ export const Main = ({offers} : MainProps) => {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} onItemMouseHover={setHoveredCardById}
-                onItemMouseLeave={() => setHoveredCardById(null)}
+              <OffersList cardType='cities' offers={offers} onItemMouseHover={setHoveredCardById}
+                onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}
               />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={currentCity} points={offers} selectedPoint={selectedOffer}/>
+                <Map city={currentCity} points={offers} selectedPoint={selectedOffer} mapType='cities'/>
               </section>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { City, Point } from '../../types';
+import { City, Point, MapClass } from '../../types';
 import { useEffect, useRef } from 'react';
 import { useMap } from '../../hooks/useMap';
 import { DEFAULT_MARKER, CURRENT_MARKER } from './Map.consts';
@@ -8,10 +8,11 @@ import { DEFAULT_MARKER, CURRENT_MARKER } from './Map.consts';
 type MapPrors = {
   city: City;
   points: Point[];
-  selectedPoint: Point | undefined;
+  selectedPoint?: Point | undefined;
+  mapType: MapClass;
 }
 
-export const Map = ({city, points, selectedPoint}: MapPrors) => {
+export const Map = ({city, points, selectedPoint, mapType}: MapPrors) => {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -31,7 +32,8 @@ export const Map = ({city, points, selectedPoint}: MapPrors) => {
   }, [map, points, selectedPoint]);
 
   return (
-    <div style={{height: '500px'}}
+    <div className={`${mapType}__map map`}
+      style={{height: '500px'}}
       ref={mapRef}
     >
     </div>
