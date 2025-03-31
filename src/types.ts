@@ -11,12 +11,12 @@ export type OfferType = {
   previewImage: string;
 }
 
-type City = {
+export type City = {
   name: string;
   location: Location;
 }
 
-  type Location = {
+type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -39,4 +39,9 @@ export type Comment = {
 export type FormData = {
   rating: number;
   review: string;
+}
+
+export type Point = {
+  title: string;
+  location: Location;
 }
