@@ -17,6 +17,8 @@ export const Offer = ({offers, reviews}: OfferPrors) => {
   const {id} = useParams();
   const offer = offers.find((item) => item.id === id);
 
+  const closest = offers.filter((item) => item.id !== id);
+
   if(!offer){
     return <Navigate to={AppRoute.NotFound} />;
   }
@@ -149,13 +151,13 @@ export const Offer = ({offers, reviews}: OfferPrors) => {
               </section>
             </div>
           </div>
-          <Map city={offers[0].city} points={offers.slice(1)} mapType='offer'/>
+          <Map city={offers[0].city} points={closest} mapType='offer'/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList cardType={'near-places'} offers={offers.slice(1)} size={'medium'} />
+              <OffersList cardType={'near-places'} offers={closest} size={'medium'} />
             </div>
           </section>
         </div>
