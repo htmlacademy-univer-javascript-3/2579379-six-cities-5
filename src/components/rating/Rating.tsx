@@ -3,8 +3,8 @@ import { ChangeEvent } from 'react';
 type RatingProps = {
   title: string;
   rating: number;
-  isChecked: boolean;
-  onChangeFeild: (event: ChangeEvent<HTMLInputElement>) => void;
+  isChecked?: boolean;
+  onChangeFeild?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Rating = ({title, rating, isChecked, onChangeFeild}: RatingProps) => (

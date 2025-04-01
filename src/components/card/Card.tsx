@@ -1,17 +1,21 @@
 import { AppRoute } from '../../consts/consts';
-import { OfferType } from '../../types';
+import { OfferType, CardType, CardSize } from '../../types';
 import { Link } from 'react-router-dom';
+import { cardsSizes } from './Card.consts';
 
 type CardProps = {
   offer: OfferType;
   onMouseHover: () => void;
   onMouseLeave: () => void;
+  size: CardSize;
+  cardType: CardType;
+
 }
 
-export const Card = ({offer, onMouseHover, onMouseLeave}: CardProps) => {
+export const Card = ({offer, onMouseHover, onMouseLeave, size, cardType}: CardProps) => {
   const {id, title, type, price, isFavorite, isPremium, rating, previewImage} = offer;
   return (
-    <article className="cities__card place-card"
+    <article className={`${cardType}__card place-card`}
       onMouseEnter={onMouseHover}
       onMouseLeave={onMouseLeave}
     >
@@ -19,9 +23,9 @@ export const Card = ({offer, onMouseHover, onMouseLeave}: CardProps) => {
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${cardType}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.BaseOffer}/${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={previewImage} width={cardsSizes[size].width} height={cardsSizes[size].height} alt="Place image"/>
         </Link>
       </div>
       <div className="place-card__info">
