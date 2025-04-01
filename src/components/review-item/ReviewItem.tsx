@@ -1,9 +1,8 @@
-import { Comment } from '../../types';
+import { Review } from '../../types';
 import { Rating } from '../rating/Rating';
-import { dateToString } from './review-item.utils';
 
 type reviewsItemProps = {
-  review: Comment;
+  review: Review;
 };
 
 export const ReviewItem = ({review}: reviewsItemProps) => (
@@ -29,7 +28,7 @@ export const ReviewItem = ({review}: reviewsItemProps) => (
         {review.comment}
       </p>
       <time className="reviews__time" dateTime={review.date.toISOString()}>
-        {dateToString(review.date)}
+        {review.date.toLocaleDateString('en-EN', {month: 'long', year: 'numeric'})}
       </time>
     </div>
   </li>

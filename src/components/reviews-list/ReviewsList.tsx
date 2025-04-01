@@ -1,8 +1,8 @@
-import { Comment } from '../../types';
+import { Review } from '../../types';
 import { ReviewItem } from '../review-item/ReviewItem';
 
 type reviewsListProps = {
-  reviews: Comment[];
+  reviews: Review[];
 };
 
 export const ReviewsList = ({reviews}: reviewsListProps) => (

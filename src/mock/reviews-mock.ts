@@ -1,6 +1,6 @@
-import { Comment } from '../types';
+import { Review } from '../types';
 
-export const Reviews: Comment[] = [
+export const Reviews: Review[] = [
   {
     id: '1',
     date: new Date('2019-05-08T14:13:56.569Z'),

@@ -1,11 +1,11 @@
 import { Card } from '../card/Card';
-import { OfferType, CardClass, CardSize } from '../../types';
+import { OfferType, CardType, CardSize } from '../../types';
 
 type OffersListProps = {
   offers: OfferType[];
   onItemMouseHover?: (offerId: string) => void;
   onItemMouseLeave?: () => void;
-  cardType: CardClass;
+  cardType: CardType;
   size: CardSize;
 }
 

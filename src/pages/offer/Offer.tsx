@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Header } from '../../components/header/Header';
-import { OfferType, Comment } from '../../types';
+import { OfferType, Review } from '../../types';
 import { AppRoute } from '../../consts/consts';
 import { ReviewsForm } from '../../components/reviews-form/ReviewForm';
 import { ReviewsList } from '../../components/reviews-list/ReviewsList';
@@ -9,7 +9,7 @@ import { OffersList } from '../../components/offers-list/OffersList';
 
 type OfferPrors = {
   offers: OfferType[];
-  reviews: Comment[];
+  reviews: Review[];
 }
 
 export const Offer = ({offers, reviews}: OfferPrors) => {

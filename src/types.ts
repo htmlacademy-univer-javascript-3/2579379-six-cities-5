@@ -22,7 +22,7 @@ type Location = {
   zoom: number;
 }
 
-export type Comment = {
+export type Review = {
   id: string;
   date: Date;
   user: HostOrUser;
@@ -46,8 +46,8 @@ export type Point = {
   location: Location;
 }
 
-export type MapClass = 'cities' | 'offer';
+export type MapType = 'cities' | 'offer';
 
-export type CardClass = 'near-places' | 'cities' | 'favorites';
+export type CardType = 'near-places' | 'cities' | 'favorites';
 
 export type CardSize = 'small' | 'medium';

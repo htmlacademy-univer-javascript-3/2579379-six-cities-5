@@ -7,11 +7,11 @@ import { Offer } from '../../pages/offer/Offer';
 import { Error } from '../../pages/error/error';
 import { AuthorizationStatus } from '../../consts/consts';
 import { PrivateRoute } from '../private-route/private-route';
-import { OfferType, Comment } from '../../types';
+import { OfferType, Review } from '../../types';
 
 type AppProps = {
   offers: OfferType[];
-  reviews: Comment[];
+  reviews: Review[];
 }
 
 export const App = ({offers, reviews}: AppProps) => (
