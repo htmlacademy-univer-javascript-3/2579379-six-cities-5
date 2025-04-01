@@ -89,9 +89,7 @@ export const Main = ({offers} : MainProps) => {
               />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map city={currentCity} points={offers} selectedPoint={selectedOffer} mapType='cities'/>
-              </section>
+              <Map city={currentCity} points={offers} selectedPoint={selectedOffer} mapType='cities'/>
             </div>
           </div>
         </div>

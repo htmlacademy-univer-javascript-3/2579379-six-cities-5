@@ -33,7 +33,6 @@ export const Map = ({city, points, selectedPoint, mapType}: MapPrors) => {
 
   return (
     <div className={`${mapType}__map map`}
-      style={{height: '500px'}}
       ref={mapRef}
     >
     </div>
