@@ -1,4 +1,4 @@
-import { Map } from 'leaflet';
+import { LatLng, Map } from 'leaflet';
 import leaflet from 'leaflet';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { City } from '../types';
@@ -14,7 +14,7 @@ export const useMap = (mapRef: MutableRefObject<HTMLElement | null>, city: City)
           lat: city.location.latitude,
           lng: city.location.longitude,
         },
-        zoom: 10
+        zoom: city.location.zoom
       });
 
       leaflet
@@ -25,7 +25,10 @@ export const useMap = (mapRef: MutableRefObject<HTMLElement | null>, city: City)
       setMap(mapInstance);
       isRenderRef.current = true;
     }
-  }, [mapRef, city]);
+    if (isRenderRef.current) {
+      map?.setView(new LatLng(city.location.latitude, city.location.longitude));
+    }
+  }, [mapRef, city, map]);
 
   return map;
 };

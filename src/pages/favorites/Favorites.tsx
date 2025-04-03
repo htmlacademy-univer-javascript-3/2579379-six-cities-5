@@ -4,6 +4,7 @@ import { getLocationFaivoritesMap } from './utils';
 import { LocationFavorites } from '../../components/location-favorites/LocationFavorites';
 import { AppRoute } from '../../consts/consts';
 import { Header } from '../../components/header/Header';
+//import { useAppSelector } from '../../store/hooks';
 
 type FavoritesProps = {
   offers: OfferType[];
