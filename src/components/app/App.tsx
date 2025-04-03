@@ -18,7 +18,7 @@ export const App = ({offers, reviews}: AppProps) => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoute.Main}
-        element={<Main offers={offers} />}
+        element={<Main />}
       />
       <Route path={AppRoute.Login}
         element={<Login/>}
@@ -34,7 +34,7 @@ export const App = ({offers, reviews}: AppProps) => (
         }
       />
       <Route path={AppRoute.Offer}
-        element={<Offer offers={offers} reviews={reviews}/>}
+        element={<Offer reviews={reviews}/>}
       />
       <Route path={AppRoute.NotFound}
         element={<Error/>}
