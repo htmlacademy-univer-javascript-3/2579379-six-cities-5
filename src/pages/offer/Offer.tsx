@@ -9,7 +9,6 @@ import { OffersList } from '../../components/offers-list/OffersList';
 import { useAppSelector } from '../../store/hooks';
 
 type OfferPrors = {
-  //offers: OfferType[];
   reviews: Review[];
 }
 

@@ -25,10 +25,13 @@ export const useMap = (mapRef: MutableRefObject<HTMLElement | null>, city: City)
       setMap(mapInstance);
       isRenderRef.current = true;
     }
+  }, [mapRef, city]);
+
+  useEffect(() => {
     if (isRenderRef.current) {
       map?.setView(new LatLng(city.location.latitude, city.location.longitude));
     }
-  }, [mapRef, city, map]);
+  }, [map, city.location.latitude, city.location.longitude]);
 
   return map;
 };
