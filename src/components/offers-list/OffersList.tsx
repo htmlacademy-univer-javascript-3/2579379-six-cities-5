@@ -10,7 +10,7 @@ type OffersListProps = {
 }
 
 export const OffersList = ({offers, onItemMouseHover, onItemMouseLeave, cardType, size}: OffersListProps) => (
-  <div className="cities__places-list places__list tabs__content">
+  <>
     {offers.map((item) => (
       <Card
         key={item.id}
@@ -21,5 +21,5 @@ export const OffersList = ({offers, onItemMouseHover, onItemMouseLeave, cardType
         onMouseLeave={() => onItemMouseLeave?.()}
       />)
     )}
-  </div>
+  </>
 );

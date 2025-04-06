@@ -1,4 +1,4 @@
-import leaflet from 'leaflet';
+import { layerGroup, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { City, Point, MapType } from '../../types';
 import { useEffect, useRef } from 'react';
@@ -18,16 +18,22 @@ export const Map = ({city, points, selectedPoint, mapType}: MapPrors) => {
 
   useEffect(() => {
     if(map) {
+      const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
-        leaflet.marker({
+        const marker = new Marker({
           lat: point.location.latitude,
           lng: point.location.longitude,
-        }, {
-          icon: (selectedPoint !== undefined &&
-            point.title === selectedPoint.title) ?
-            CURRENT_MARKER : DEFAULT_MARKER,
-        }).addTo(map);
+        });
+        marker.setIcon(
+          selectedPoint !== undefined && point.title === selectedPoint.title
+            ? CURRENT_MARKER
+            : DEFAULT_MARKER
+        )
+          .addTo(markerLayer);
       });
+      return () => {
+        map.removeLayer(markerLayer);
+      };
     }
   }, [map, points, selectedPoint]);
 

@@ -1,21 +1,24 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Header } from '../../components/header/Header';
-import { OfferType, Review } from '../../types';
+import { Review } from '../../types';
 import { AppRoute } from '../../consts/consts';
 import { ReviewsForm } from '../../components/reviews-form/ReviewForm';
 import { ReviewsList } from '../../components/reviews-list/ReviewsList';
 import { Map } from '../../components/map/Map';
 import { OffersList } from '../../components/offers-list/OffersList';
+import { useAppSelector } from '../../store/hooks';
 
 type OfferPrors = {
-  offers: OfferType[];
   reviews: Review[];
 }
 
-export const Offer = ({offers, reviews}: OfferPrors) => {
+export const Offer = ({reviews}: OfferPrors) => {
 
   const {id} = useParams();
+
+  const offers = useAppSelector((state) => state.offers);
   const offer = offers.find((item) => item.id === id);
+  const currentCity = useAppSelector((state) => state.city);
 
   const closest = offers.filter((item) => item.id !== id);
 
@@ -151,7 +154,7 @@ export const Offer = ({offers, reviews}: OfferPrors) => {
               </section>
             </div>
           </div>
-          <Map city={offers[0].city} points={closest} mapType='offer'/>
+          <Map city={currentCity} points={closest} mapType='offer'/>
         </section>
         <div className="container">
           <section className="near-places places">

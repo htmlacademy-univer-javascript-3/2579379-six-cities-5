@@ -1,3 +1,5 @@
+import { CityName } from './consts/consts';
+
 export type OfferType = {
   id: string;
   title: string;
@@ -12,7 +14,7 @@ export type OfferType = {
 }
 
 export type City = {
-  name: string;
+  name: CityName;
   location: Location;
 }
 
