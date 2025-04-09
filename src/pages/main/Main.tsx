@@ -1,13 +1,16 @@
 import { Header } from '../../components/header/Header';
-import { City } from '../../types';
+import { City, OfferType } from '../../types';
 import { OffersList } from '../../components/offers-list/OffersList';
 import { Map } from '../../components/map/Map';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { CitiesList } from '../../components/cities-list/CitiesList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { changeCity, setOffers } from '../../store/actions';
 import { Offers } from '../../mock/offers-mock';
 import 'leaflet/dist/leaflet.css';
+import { Sorts } from '../../consts/sorts';
+import { getSortedOffers } from './sorting';
+import { Sorting } from '../../components/sorting/Sorting';
 
 export const Main = () => {
   const [activeCardId, setHoveredCardById] = useState<string | null>(null);
@@ -19,13 +22,25 @@ export const Main = () => {
 
   const selectedOffer = offers.find((offer) => offer.id === activeCardId);
 
-  const handleCityChange = (city: City) => {
-    dispatch(changeCity(city));
-  }; //
-
   useEffect(()=>{
     dispatch(setOffers(Offers.filter((offer) => offer.city.name === currentCity.name)));
   },[currentCity, dispatch]);
+
+  const [currentFilter, setCurrentFilter] = useState<Sorts>(Sorts.Popular);
+
+  const handleFilterChange = useCallback((filter: Sorts) => {
+    setCurrentFilter(filter);
+  }, []);
+
+  const sortedOffers = useMemo<OfferType[]>(() =>
+    getSortedOffers(offers, currentFilter),
+  [offers, currentFilter]
+  );
+
+  const handleCityChange = (city: City) => {
+    dispatch(changeCity(city));
+    setCurrentFilter(Sorts.Popular);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -42,23 +57,9 @@ export const Main = () => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {currentCity.name}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
+              <Sorting currentSort={currentFilter} onSortChange={handleFilterChange}/>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList cardType='cities' offers={offers} onItemMouseHover={setHoveredCardById}
+                <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById}
                   onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}
                 />
               </div>
