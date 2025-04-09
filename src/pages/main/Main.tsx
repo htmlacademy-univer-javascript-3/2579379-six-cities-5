@@ -2,15 +2,15 @@ import { Header } from '../../components/header/Header';
 import { City, OfferType } from '../../types';
 import { OffersList } from '../../components/offers-list/OffersList';
 import { Map } from '../../components/map/Map';
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { CitiesList } from '../../components/cities-list/CitiesList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { changeCity, setOffers } from '../../store/actions';
-import { Offers } from '../../mock/offers-mock';
+import { changeCity } from '../../store/actions';
 import 'leaflet/dist/leaflet.css';
 import { Sorts } from '../../consts/sorts';
 import { getSortedOffers } from './sorting';
 import { Sorting } from '../../components/sorting/Sorting';
+import { Spinner } from '../../components/spinner/spinner';
 
 export const Main = () => {
   const [activeCardId, setHoveredCardById] = useState<string | null>(null);
@@ -19,12 +19,11 @@ export const Main = () => {
 
   const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
+  const isLoading = useAppSelector((state) => state.isLoading);
 
   const selectedOffer = offers.find((offer) => offer.id === activeCardId);
 
-  useEffect(()=>{
-    dispatch(setOffers(Offers.filter((offer) => offer.city.name === currentCity.name)));
-  },[currentCity, dispatch]);
+  const OffersByCity = offers.filter((offer) => offer.city.name === currentCity.name);
 
   const [currentFilter, setCurrentFilter] = useState<Sorts>(Sorts.Popular);
 
@@ -33,8 +32,8 @@ export const Main = () => {
   }, []);
 
   const sortedOffers = useMemo<OfferType[]>(() =>
-    getSortedOffers(offers, currentFilter),
-  [offers, currentFilter]
+    getSortedOffers(OffersByCity, currentFilter),
+  [OffersByCity, currentFilter]
   );
 
   const handleCityChange = (city: City) => {
@@ -56,16 +55,14 @@ export const Main = () => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {currentCity.name}</b>
+              <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
               <Sorting currentSort={currentFilter} onSortChange={handleFilterChange}/>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById}
-                  onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}
-                />
+                {isLoading ? <Spinner/> : <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById} onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}/>}
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={currentCity} points={offers} selectedPoint={selectedOffer} mapType='cities'/>
+              <Map city={currentCity} points={sortedOffers} selectedPoint={selectedOffer} mapType='cities'/>
             </div>
           </div>
         </div>
