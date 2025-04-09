@@ -21,7 +21,7 @@ export const Main = () => {
 
   const handleCityChange = (city: City) => {
     dispatch(changeCity(city));
-  };
+  }; //
 
   useEffect(()=>{
     dispatch(setOffers(Offers.filter((offer) => offer.city.name === currentCity.name)));
