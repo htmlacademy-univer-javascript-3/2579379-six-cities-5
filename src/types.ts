@@ -44,6 +44,7 @@ export type FormData = {
 }
 
 export type Point = {
+  id: string;
   title: string;
   location: Location;
 }

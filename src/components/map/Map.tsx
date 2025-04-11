@@ -25,7 +25,7 @@ export const Map = ({city, points, selectedPoint, mapType}: MapPrors) => {
           lng: point.location.longitude,
         });
         marker.setIcon(
-          selectedPoint !== undefined && point.title === selectedPoint.title
+          selectedPoint !== undefined && point.id === selectedPoint.id
             ? CURRENT_MARKER
             : DEFAULT_MARKER
         )
