@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Reviews } from './mock/reviews-mock';
 import { App } from './components/app/App';
-import { Favorites } from './mock/favorites-mock';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { fetchOffersAction } from './store/api-actions';
@@ -16,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App favorites={Favorites} reviews={Reviews}/>
+      <App reviews={Reviews}/>
     </Provider>
   </React.StrictMode>
 );
