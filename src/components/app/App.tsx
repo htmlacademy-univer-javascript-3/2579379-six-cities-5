@@ -7,17 +7,16 @@ import { Offer } from '../../pages/offer/Offer';
 import { Error } from '../../pages/error/error';
 import { AuthorizationStatus } from '../../consts/consts';
 import { PrivateRoute } from '../private-route/private-route';
-import { OfferType, Review } from '../../types';
+import { Review } from '../../types';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { fetchOffersAction } from '../../store/api-actions';
 
 type AppProps = {
-  favorites: OfferType[];
   reviews: Review[];
 }
 
-export const App = ({favorites, reviews}: AppProps) => {
+export const App = ({reviews}: AppProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -39,7 +38,7 @@ export const App = ({favorites, reviews}: AppProps) => {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <Favorites offers={favorites.filter((o) => o.isFavorite)}/>
+              <Favorites/>
             </PrivateRoute>
           }
         />

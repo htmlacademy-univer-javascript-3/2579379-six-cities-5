@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, setOffers, setLoading, setError } from './actions.ts';
+import { changeCity, setOffers, setLoading, setError, setFavorites } from './actions.ts';
 import { cities } from '../consts/cities.ts';
 import { City, OfferType } from '../types.ts';
 
@@ -8,6 +8,7 @@ type State = {
   offers: OfferType[];
   isLoading: boolean;
   error: string | null;
+  favorites: OfferType[];
 }
 
 const initialState: State = {
@@ -15,6 +16,7 @@ const initialState: State = {
   offers: [],
   isLoading: false,
   error: null,
+  favorites: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -26,5 +28,7 @@ export const reducer = createReducer(initialState, (builder) => {
     state.isLoading = action.payload;
   }).addCase(setError, (state, action) => {
     state.error = action.payload;
+  }).addCase(setFavorites, (state, action) => {
+    state.favorites = action.payload;
   });
 });

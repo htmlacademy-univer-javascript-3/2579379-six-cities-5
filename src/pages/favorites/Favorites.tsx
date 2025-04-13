@@ -1,19 +1,25 @@
-import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 import { getLocationFaivoritesMap } from './utils';
 import { LocationFavorites } from '../../components/location-favorites/LocationFavorites';
 import { AppRoute } from '../../consts/consts';
 import { Header } from '../../components/header/Header';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchFavorites } from '../../store/api-actions';
+import { useMemo, useEffect } from 'react';
 
-type FavoritesProps = {
-  offers: OfferType[];
-}
+export const Favorites = () => {
 
-export const Favorites = ({offers}: FavoritesProps) => {
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.favorites);
+  const LocationsFavorites = useMemo(() =>
+    getLocationFaivoritesMap(favorites), [favorites]);
 
-  const LocationsFavorites = getLocationFaivoritesMap(offers);
   const LocationsFavoritesObject = Object.fromEntries(LocationsFavorites.entries());
   const LocationsFavoritesArray = Object.entries(LocationsFavoritesObject);
+
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, []);
 
   return (
     <div className="page">
@@ -23,7 +29,8 @@ export const Favorites = ({offers}: FavoritesProps) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {LocationsFavoritesArray.map((lf) => <LocationFavorites key={lf[0]}city={lf[0]} favoriteOffers={lf[1]}/>)}
+              {LocationsFavoritesArray.map((lf) => <LocationFavorites key={lf[0]} city={lf[0]} favoriteOffers={lf[1]}/>)}
+              {/* {Object.entries(LocationsFavorites).map(([city, f]) => key={city} city={city} favoriteOffers={f})} */}
             </ul>
           </section>
         </div>
