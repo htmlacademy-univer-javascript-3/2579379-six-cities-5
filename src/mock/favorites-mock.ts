@@ -5,7 +5,7 @@ import house from './images/house.jpg';
 import apartment2 from './images/apartment2.jpg';
 import { CityName } from '../consts/consts';
 
-export const Offers: OfferType[] = [
+export const Favorites: OfferType[] = [
   {
     id: '1',
     title: 'Beautiful & luxurious studio at great location',
@@ -53,29 +53,6 @@ export const Offers: OfferType[] = [
     previewImage: apartment,
   },
   {
-    id: '3',
-    title: 'Cheap and cozy room',
-    type: 'room',
-    price: 100,
-    city: {
-      name: CityName.Dusseldorf,
-      location: {
-        latitude: 51.232334,
-        longitude: 6.786333,
-        zoom: 8,
-      }
-    },
-    location: {
-      latitude: 51.232334,
-      longitude: 6.786333,
-      zoom: 8,
-    },
-    isFavorite: false,
-    isPremium: false,
-    rating: 4,
-    previewImage: room,
-  },
-  {
     id: '4',
     title: 'Super hostel',
     type: 'room',
@@ -96,29 +73,6 @@ export const Offers: OfferType[] = [
     isFavorite: true,
     isPremium: true,
     rating: 2,
-    previewImage: room,
-  },
-  {
-    id: '5',
-    title: 'Super econom hostel',
-    type: 'room',
-    price: 5000,
-    city: {
-      name: CityName.Dusseldorf,
-      location: {
-        latitude: 51.233224,
-        longitude: 6.791333,
-        zoom: 8,
-      }
-    },
-    location: {
-      latitude: 51.233224,
-      longitude: 6.791333,
-      zoom: 8,
-    },
-    isFavorite: false,
-    isPremium: false,
-    rating: 1,
     previewImage: room,
   },
   {
@@ -238,29 +192,6 @@ export const Offers: OfferType[] = [
   },
   {
     id: '11',
-    title: 'Apartment for premium people',
-    type: 'apartment',
-    price: 30000,
-    city: {
-      name: CityName.Cologne,
-      location: {
-        latitude: 50.915213,
-        longitude: 6.9510121,
-        zoom: 6,
-      }
-    },
-    location: {
-      latitude: 50.915213,
-      longitude: 6.9510121,
-      zoom: 6,
-    },
-    isFavorite: false,
-    isPremium: true,
-    rating: 5,
-    previewImage: apartment2,
-  },
-  {
-    id: '11',
     title: 'Just a room',
     type: 'apartment',
     price: 4509,
@@ -280,29 +211,6 @@ export const Offers: OfferType[] = [
     isFavorite: true,
     isPremium: true,
     rating: 3,
-    previewImage: apartment2,
-  },
-  {
-    id: '12',
-    title: 'Apartment for premium people',
-    type: 'apartment',
-    price: 30000,
-    city: {
-      name: CityName.Brussels,
-      location: {
-        latitude: 50.85144000,
-        longitude: 4.34971000,
-        zoom: 7,
-      }
-    },
-    location: {
-      latitude: 50.85144000,
-      longitude: 4.34971000,
-      zoom: 7,
-    },
-    isFavorite: false,
-    isPremium: true,
-    rating: 4,
     previewImage: apartment2,
   },
   {
@@ -327,28 +235,5 @@ export const Offers: OfferType[] = [
     isPremium: true,
     rating: 3,
     previewImage: room,
-  },
-  {
-    id: '14',
-    title: 'Apartment for premium people',
-    type: 'house',
-    price: 30000,
-    city: {
-      name: CityName.Cologne,
-      location: {
-        latitude: 50.915213,
-        longitude: 6.9590121,
-        zoom: 7,
-      }
-    },
-    location: {
-      latitude: 50.915213,
-      longitude: 6.9590121,
-      zoom: 7,
-    },
-    isFavorite: false,
-    isPremium: true,
-    rating: 5,
-    previewImage: apartment2,
   },
 ];

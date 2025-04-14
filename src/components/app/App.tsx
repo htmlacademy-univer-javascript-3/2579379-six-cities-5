@@ -7,39 +7,49 @@ import { Offer } from '../../pages/offer/Offer';
 import { Error } from '../../pages/error/error';
 import { AuthorizationStatus } from '../../consts/consts';
 import { PrivateRoute } from '../private-route/private-route';
-import { OfferType, Review } from '../../types';
+import { Review } from '../../types';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../store/hooks';
+import { fetchOffersAction } from '../../store/api-actions';
 
 type AppProps = {
-  offers: OfferType[];
   reviews: Review[];
 }
 
-export const App = ({offers, reviews}: AppProps) => (
-  <BrowserRouter>
-    <Routes>
-      <Route path={AppRoute.Main}
-        element={<Main />}
-      />
-      <Route path={AppRoute.Login}
-        element={<Login/>}
-      />
-      <Route
-        path={AppRoute.Favorites}
-        element={
-          <PrivateRoute
-            authorizationStatus={AuthorizationStatus.Auth}
-          >
-            <Favorites offers={offers.filter((o) => o.isFavorite)}/>
-          </PrivateRoute>
-        }
-      />
-      <Route path={AppRoute.Offer}
-        element={<Offer reviews={reviews}/>}
-      />
-      <Route path={AppRoute.NotFound}
-        element={<Error/>}
-      />
-    </Routes>
-  </BrowserRouter>
-);
+export const App = ({reviews}: AppProps) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={AppRoute.Main}
+          element={<Main />}
+        />
+        <Route path={AppRoute.Login}
+          element={<Login/>}
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute
+              authorizationStatus={AuthorizationStatus.Auth}
+            >
+              <Favorites/>
+            </PrivateRoute>
+          }
+        />
+        <Route path={AppRoute.Offer}
+          element={<Offer reviews={reviews}/>}
+        />
+        <Route path={AppRoute.NotFound}
+          element={<Error/>}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
