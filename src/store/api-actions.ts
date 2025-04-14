@@ -21,11 +21,12 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, thunkType>(
       dispatch(setLoading(true));
       const {data} = await api.get<OfferType[]>('/offers');
       dispatch(setOffers(data));
-      dispatch(setLoading(false));
     } catch(err) {
       if (err instanceof Error) {
         errorHandler(err.message);
       }
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 );

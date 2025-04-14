@@ -30,7 +30,6 @@ export const Favorites = () => {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {LocationsFavoritesArray.map((lf) => <LocationFavorites key={lf[0]} city={lf[0]} favoriteOffers={lf[1]}/>)}
-              {/* {Object.entries(LocationsFavorites).map(([city, f]) => key={city} city={city} favoriteOffers={f})} */}
             </ul>
           </section>
         </div>
