@@ -12,6 +12,8 @@ import { getSortedOffers } from './sorting';
 import { Sorting } from '../../components/sorting/Sorting';
 import { Spinner } from '../../components/spinner/spinner';
 import { ErrorMessage } from '../../components/error/ErrorMessage';
+import { AppRoute, AuthorizationStatus } from '../../consts/consts';
+import { Navigate } from 'react-router-dom';
 
 export const Main = () => {
   const [activeCardId, setHoveredCardById] = useState<string | null>(null);
@@ -22,6 +24,7 @@ export const Main = () => {
   const currentCity = useAppSelector((state) => state.city);
   const isLoading = useAppSelector((state) => state.isLoading);
   const isError = useAppSelector((state) => state.error);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const selectedOffer = offers.find((offer) => offer.id === activeCardId);
 
@@ -42,6 +45,10 @@ export const Main = () => {
     dispatch(changeCity(city));
     setCurrentFilter(Sorts.Popular);
   };
+
+  if(authorizationStatus === AuthorizationStatus.NoAuth) {
+    return <Navigate to={AppRoute.Login} />;
+  }
 
   return (
     <div className="page page--gray page--main">

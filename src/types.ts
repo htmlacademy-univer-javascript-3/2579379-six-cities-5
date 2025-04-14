@@ -38,6 +38,16 @@ export type Review = {
   isPro: boolean;
 }
 
+export type AuthData = {
+  email: string;
+  password: string;
+}
+
+export type User = HostOrUser & {
+  email: string;
+  token: string;
+}
+
 export type FormData = {
   rating: number;
   review: string;
