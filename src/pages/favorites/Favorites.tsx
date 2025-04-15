@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { getLocationFaivoritesMap } from './utils';
 import { LocationFavorites } from '../../components/location-favorites/LocationFavorites';
-import { AppRoute } from '../../consts/consts';
+import { AppRoute, AuthorizationStatus } from '../../consts/consts';
 import { Header } from '../../components/header/Header';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchFavorites } from '../../store/api-actions';
 import { useMemo, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 export const Favorites = () => {
 
@@ -13,6 +14,7 @@ export const Favorites = () => {
   const favorites = useAppSelector((state) => state.favorites);
   const LocationsFavorites = useMemo(() =>
     getLocationFaivoritesMap(favorites), [favorites]);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const LocationsFavoritesObject = Object.fromEntries(LocationsFavorites.entries());
   const LocationsFavoritesArray = Object.entries(LocationsFavoritesObject);
@@ -20,6 +22,10 @@ export const Favorites = () => {
   useEffect(() => {
     dispatch(fetchFavorites());
   }, []);
+
+  if(authorizationStatus === AuthorizationStatus.NoAuth) {
+    return <Navigate to={AppRoute.Login} />;
+  }
 
   return (
     <div className="page">

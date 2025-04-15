@@ -5,12 +5,11 @@ import { Favorites } from '../../pages/favorites/Favorites';
 import { Login } from '../../pages/login/Login';
 import { Offer } from '../../pages/offer/Offer';
 import { Error } from '../../pages/error/error';
-import { AuthorizationStatus } from '../../consts/consts';
 import { PrivateRoute } from '../private-route/private-route';
 import { Review } from '../../types';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
-import { fetchOffersAction } from '../../store/api-actions';
+import { fetchOffersAction, checkAuthStatus } from '../../store/api-actions';
 
 type AppProps = {
   reviews: Review[];
@@ -20,6 +19,7 @@ export const App = ({reviews}: AppProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(checkAuthStatus());
     dispatch(fetchOffersAction());
   }, []);
 
@@ -35,9 +35,7 @@ export const App = ({reviews}: AppProps) => {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
-            >
+            <PrivateRoute>
               <Favorites/>
             </PrivateRoute>
           }
