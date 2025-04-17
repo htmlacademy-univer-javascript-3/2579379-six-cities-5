@@ -1,18 +1,11 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { removeErrorAction } from '../store/api-actions';
-import { setError } from '../store/actions';
-import { store } from '../store/store';
 import { getToken } from '../services/token';
+import { errorHandler } from '../store/error-slice/error-slice';
 
 const BASE_URL = 'https://14.design.htmlacademy.pro/six-cities';
 const WAIT_TIMEOUT = 5000;
-
-export const errorHandler = (message: string): void => {
-  store.dispatch(setError(message));
-  store.dispatch(removeErrorAction());
-};
 
 type MessageType = {
   type: string;

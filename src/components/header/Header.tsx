@@ -5,8 +5,8 @@ import { logout } from '../../store/api-actions';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
+  const user = useAppSelector((state) => state.auth.user);
 
   const location = useLocation();
 

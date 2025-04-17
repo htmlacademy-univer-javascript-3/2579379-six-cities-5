@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { getLocationFaivoritesMap } from './utils';
 import { LocationFavorites } from '../../components/location-favorites/LocationFavorites';
 import { AppRoute, AuthorizationStatus } from '../../consts/consts';
-import { Header } from '../../components/header/Header';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchFavorites } from '../../store/api-actions';
 import { useMemo, useEffect } from 'react';
@@ -11,10 +10,10 @@ import { Navigate } from 'react-router-dom';
 export const Favorites = () => {
 
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector((state) => state.favorite.offers);
   const LocationsFavorites = useMemo(() =>
     getLocationFaivoritesMap(favorites), [favorites]);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
 
   const LocationsFavoritesObject = Object.fromEntries(LocationsFavorites.entries());
   const LocationsFavoritesArray = Object.entries(LocationsFavoritesObject);
@@ -29,7 +28,6 @@ export const Favorites = () => {
 
   return (
     <div className="page">
-      <Header/>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">

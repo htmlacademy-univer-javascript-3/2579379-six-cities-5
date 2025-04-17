@@ -1,12 +1,13 @@
 import { cities } from '../../consts/cities';
 import { City } from '../../types';
+import { memo } from 'react';
 
 type CitiesProps = {
   currentCity: City;
   onChange: (city: City) => void;
 }
 
-export const CitiesList = ({currentCity, onChange}: CitiesProps) => {
+export const CitiesListComponent = ({currentCity, onChange}: CitiesProps) => {
   const names = Object.entries(cities);
   return (
     <ul className="locations__list tabs__list">
@@ -28,3 +29,7 @@ export const CitiesList = ({currentCity, onChange}: CitiesProps) => {
     </ul>
   );
 };
+
+CitiesListComponent.displayName = 'CitiesList';
+
+export const CitiesList = memo(CitiesListComponent);

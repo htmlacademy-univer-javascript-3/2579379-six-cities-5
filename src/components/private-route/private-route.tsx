@@ -7,7 +7,7 @@ type PrivateProps = {
 }
 
 export const PrivateRoute = (props: PrivateProps) => {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
   const {children} = props;
 
   return (authorizationStatus === AuthorizationStatus.Auth ? children : <Navigate to={AppRoute.Login}/>);

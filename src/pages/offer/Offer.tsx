@@ -16,9 +16,9 @@ export const Offer = ({reviews}: OfferPrors) => {
 
   const {id} = useParams();
 
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector((state) => state.offers.offers);
   const offer = offers.find((item) => item.id === id);
-  const currentCity = useAppSelector((state) => state.city);
+  const currentCity = useAppSelector((state) => state.offers.city);
 
   const closest = offers.filter((item) => item.id !== id);
 
