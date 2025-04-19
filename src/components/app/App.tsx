@@ -10,6 +10,7 @@ import { Review } from '../../types';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { fetchOffersAction, checkAuthStatus } from '../../store/api-actions';
+import { Header } from '../header/Header';
 
 type AppProps = {
   reviews: Review[];
@@ -25,6 +26,7 @@ export const App = ({reviews}: AppProps) => {
 
   return (
     <BrowserRouter>
+      <Header/>
       <Routes>
         <Route path={AppRoute.Main}
           element={<Main />}

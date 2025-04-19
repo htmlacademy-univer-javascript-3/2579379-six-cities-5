@@ -3,11 +3,10 @@ import { AuthorizationStatus, AppRoute } from '../../consts/consts';
 import { Navigate } from 'react-router-dom';
 import { FormEventHandler } from 'react';
 import { login } from '../../store/api-actions';
-import { Header } from '../../components/header/Header';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
 
   const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -27,7 +26,6 @@ export const Login = () => {
 
   return (
     <div className="page page--gray page--login">
-      <Header />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

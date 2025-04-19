@@ -2,116 +2,101 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, StoreType } from './types';
 import { AxiosInstance } from 'axios';
 import { OfferType } from '../types';
-import { setError, setFavorites, setLoading, setOffers, setAuthStatus, setUser } from './actions';
-import { store } from './store';
-import { errorHandler } from '../api/api';
+import { errorHandler } from './error-slice/error-slice';
 import { removeToken, setToken } from '../services/token';
-import { AuthorizationStatus } from '../consts/consts';
 import { AuthData, User } from '../types';
 import {StatusCodes} from 'http-status-codes';
 
-const ERROR_TIMEOT = 20000;
-type thunkType = {
+type ThunkType = {
   dispatch: AppDispatch;
   state: StoreType;
   extra: {api: AxiosInstance};
 };
 
-export const checkAuthStatus = createAsyncThunk<void, undefined, thunkType>(
+export const checkAuthStatus = createAsyncThunk<User, void, ThunkType>(
   'AUTH/authorization',
-  async (_arg, {dispatch, extra: extra}) => {
+  async (_arg, {dispatch, extra, rejectWithValue}) => {
     try {
       const {api} = extra;
       const {data} = await api.get<User>('/login');
-      dispatch(setAuthStatus(AuthorizationStatus.Auth));
-      dispatch(setUser(data));
       setToken(data.token);
-    } catch {
-      dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
-      dispatch(setUser(null));
+      return data;
+    } catch (err) {
+      if (err instanceof Error) {
+        dispatch(errorHandler(err.message));
+      }
+      return rejectWithValue(err);
     }
   },
 );
 
-export const login = createAsyncThunk<void, AuthData, thunkType>(
+export const login = createAsyncThunk<User, AuthData, ThunkType>(
   'USER/login',
-  async ({email, password}, {dispatch, extra: extra}) => {
+  async ({email, password}, {dispatch, extra, rejectWithValue}) => {
     try {
       const {api} = extra;
       const {status, data} = await api.post<User>('/login', {email, password});
 
       if (status === Number(StatusCodes.CREATED)) {
-        dispatch(setAuthStatus(AuthorizationStatus.Auth));
-        dispatch(setUser(data));
         setToken(data.token);
+        return data;
       } else {
-        dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
-        dispatch(setUser(null));
+        return rejectWithValue('Неверный статус');
       }
     } catch (err) {
       if (err instanceof Error) {
-        errorHandler(err.message);
+        dispatch(errorHandler(err.message));
       }
+      return rejectWithValue(err);
     }
   },
 );
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, thunkType>(
+export const fetchOffersAction = createAsyncThunk<OfferType[], void, ThunkType>(
   'CITY/changeCity',
-  async (_arg, {dispatch, extra: extra}) => {
+  async (_arg, {dispatch, extra, rejectWithValue}) => {
     try {
       const {api} = extra;
-      dispatch(setLoading(true));
-      const {data} = await api.get<OfferType[]>('/offers');
-      dispatch(setOffers(data));
+      const {data} = await api.get<OfferType[]>('/oflfers');
+      return data;
     } catch(err) {
       if (err instanceof Error) {
-        errorHandler(err.message);
+        dispatch(errorHandler(err.message));
+        return rejectWithValue(err.message);
       }
-    } finally {
-      dispatch(setLoading(false));
+      return rejectWithValue(err);
     }
   }
 );
 
-export const fetchFavorites = createAsyncThunk<void, undefined, thunkType>(
+export const fetchFavorites = createAsyncThunk<OfferType[], void, ThunkType>(
   'FAVORITES/setFavorites',
-  async (_arg, {dispatch, extra: extra}) => {
+  async (_arg, {dispatch, extra, rejectWithValue}) => {
     try {
       const {api} = extra;
       const {data} = await api.get<OfferType[]>('/favorite');
-      dispatch(setFavorites(data));
+      return data;
     } catch(err) {
       if (err instanceof Error) {
-        errorHandler(err.message);
+        dispatch(errorHandler(err.message));
       }
+      return rejectWithValue(err);
     }
   }
 );
 
-export const logout = createAsyncThunk<void, undefined, thunkType>(
+export const logout = createAsyncThunk<void, undefined, ThunkType>(
   'USER/logout',
-  async (_arg, {dispatch, extra: extra}) => {
+  async (_arg, {dispatch, extra, rejectWithValue}) => {
     try {
       const {api} = extra;
       await api.delete('/logout');
-      dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
-      dispatch(setUser(null));
       removeToken();
     } catch (err) {
       if (err instanceof Error) {
-        errorHandler(err.message);
+        dispatch(errorHandler(err.message));
       }
+      return rejectWithValue(err);
     }
-  },
-);
-
-export const removeErrorAction = createAsyncThunk<void, undefined, thunkType>(
-  'ERROR/setError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      ERROR_TIMEOT,
-    );
   },
 );

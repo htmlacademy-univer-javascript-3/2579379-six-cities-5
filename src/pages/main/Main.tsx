@@ -1,27 +1,26 @@
-import { Header } from '../../components/header/Header';
 import { City, OfferType } from '../../types';
 import { OffersList } from '../../components/offers-list/OffersList';
 import { Map } from '../../components/map/Map';
 import { useState, useMemo, useCallback } from 'react';
 import { CitiesList } from '../../components/cities-list/CitiesList';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { changeCity } from '../../store/actions';
 import 'leaflet/dist/leaflet.css';
 import { Sorts } from '../../consts/sorts';
 import { getSortedOffers } from './sorting';
 import { Sorting } from '../../components/sorting/Sorting';
 import { Spinner } from '../../components/spinner/spinner';
 import { ErrorMessage } from '../../components/error/ErrorMessage';
+import { changeCity } from '../../store/offers-slice/offers-slice';
 
 export const Main = () => {
   const [activeCardId, setHoveredCardById] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
 
-  const offers = useAppSelector((state) => state.offers);
-  const currentCity = useAppSelector((state) => state.city);
-  const isLoading = useAppSelector((state) => state.isLoading);
-  const isError = useAppSelector((state) => state.error);
+  const offers = useAppSelector((state) => state.offers.offers);
+  const currentCity = useAppSelector((state) => state.offers.city);
+  const isLoading = useAppSelector((state) => state.offers.isLoading);
+  const isError = useAppSelector((state) => state.error.error);
 
   const selectedOffer = offers.find((offer) => offer.id === activeCardId);
 
@@ -38,14 +37,13 @@ export const Main = () => {
   [OffersByCity, currentFilter]
   );
 
-  const handleCityChange = (city: City) => {
+  const handleCityChange = useCallback((city: City) => {
     dispatch(changeCity(city));
     setCurrentFilter(Sorts.Popular);
-  };
+  }, [dispatch]);
 
   return (
     <div className="page page--gray page--main">
-      <Header/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
