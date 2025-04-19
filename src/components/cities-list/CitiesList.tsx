@@ -7,7 +7,7 @@ type CitiesProps = {
   onChange: (city: City) => void;
 }
 
-export const CitiesListComponent = ({currentCity, onChange}: CitiesProps) => {
+export const CitiesListMemo = ({currentCity, onChange}: CitiesProps) => {
   const names = Object.entries(cities);
   return (
     <ul className="locations__list tabs__list">
@@ -30,6 +30,6 @@ export const CitiesListComponent = ({currentCity, onChange}: CitiesProps) => {
   );
 };
 
-CitiesListComponent.displayName = 'CitiesList';
+CitiesListMemo.displayName = 'CitiesList';
 
-export const CitiesList = memo(CitiesListComponent);
+export const CitiesList = memo(CitiesListMemo);

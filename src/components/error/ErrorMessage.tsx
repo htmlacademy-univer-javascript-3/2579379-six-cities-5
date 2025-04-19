@@ -18,7 +18,9 @@ export const ErrorMessage = () => {
     }
   }, [error, dispatch]);
 
-  return error.error
-    ? <div className='error'><div className='error-message'>{error.error}</div></div>
-    : null;
+  if (error.error) {
+    return <div className='error'><div className='error-message'>{error.error}</div></div>;
+  }
+
+  return null;
 };
