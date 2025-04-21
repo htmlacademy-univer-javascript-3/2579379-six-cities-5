@@ -2,6 +2,10 @@ import { AppRoute } from '../../consts/consts';
 import { OfferType, CardType, CardSize } from '../../types';
 import { Link } from 'react-router-dom';
 import { cardsSizes } from './Card.consts';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { AuthorizationStatus } from '../../consts/consts';
+import { Navigate } from 'react-router-dom';
+import { addToFavorite } from '../../store/api-actions';
 
 type CardProps = {
   offer: OfferType;
@@ -9,11 +13,21 @@ type CardProps = {
   onMouseLeave: () => void;
   size: CardSize;
   cardType: CardType;
-
 }
 
 export const Card = ({offer, onMouseHover, onMouseLeave, size, cardType}: CardProps) => {
   const {id, title, type, price, isFavorite, isPremium, rating, previewImage} = offer;
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
+
+  const handleFavoriteClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      return <Navigate to={AppRoute.Login} />;
+    }
+    const status = offer.isFavorite ? 0 : 1;
+    dispatch(addToFavorite({ offerId: offer.id, status }));
+  };
+
   return (
     <article className={`${cardType}__card place-card`}
       onMouseEnter={onMouseHover}
@@ -34,13 +48,17 @@ export const Card = ({offer, onMouseHover, onMouseLeave, size, cardType}: CardPr
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            {isFavorite ? <span className="visually-hidden">In bookmarks</span> :
-              <span className="visually-hidden">To bookmarks</span>}
-          </button>
+          {authorizationStatus === AuthorizationStatus.Auth &&
+            <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+              type="button"
+              onClick={handleFavoriteClick}
+            >
+              <svg className="place-card__bookmark-icon" width="18" height="19">
+                <use xlinkHref="#icon-bookmark"></use>
+              </svg>
+              {isFavorite ? <span className="visually-hidden">In bookmarks</span> :
+                <span className="visually-hidden">To bookmarks</span>}
+            </button>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

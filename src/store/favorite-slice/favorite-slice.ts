@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchFavorites } from '../api-actions';
+import { addToFavorite, fetchFavorites } from '../api-actions';
 import { OfferType } from '../../types';
 
 export type OffersType = {
@@ -18,6 +18,21 @@ export const favoriteSlice = createSlice({
     builder
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.offers = action.payload;
+      })
+      .addCase(addToFavorite.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+        const index = state.offers.findIndex((offer) => offer.id === updatedOffer.id);
+        if (updatedOffer.isFavorite) {
+          if (index === -1) {
+            state.offers.push(updatedOffer);
+          } else {
+            state.offers[index] = updatedOffer;
+          }
+        } else {
+          if (index !== -1) {
+            state.offers.splice(index, 1);
+          }
+        }
       });
   }
 });

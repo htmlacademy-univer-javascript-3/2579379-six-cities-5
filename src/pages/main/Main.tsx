@@ -11,6 +11,7 @@ import { Sorting } from '../../components/sorting/Sorting';
 import { Spinner } from '../../components/spinner/spinner';
 import { ErrorMessage } from '../../components/error/ErrorMessage';
 import { changeCity } from '../../store/offers-slice/offers-slice';
+import { MainEmpty } from '../../components/main-empty/MainEmpty';
 
 export const Main = () => {
   const [activeCardId, setHoveredCardById] = useState<string | null>(null);
@@ -20,7 +21,8 @@ export const Main = () => {
   const offers = useAppSelector((state) => state.offers.offers);
   const currentCity = useAppSelector((state) => state.offers.city);
   const isLoading = useAppSelector((state) => state.offers.isLoading);
-  const isError = useAppSelector((state) => state.error.error);
+  const isError = useAppSelector((state) => state.offers.isError);
+  const isEmpty = useAppSelector((state) => state.offers.isEmpty);
 
   const selectedOffer = offers.find((offer) => offer.id === activeCardId);
 
@@ -52,20 +54,24 @@ export const Main = () => {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
-              <Sorting currentSort={currentFilter} onSortChange={handleFilterChange}/>
-              {isError ? <ErrorMessage/> :
-                <div className="cities__places-list places__list tabs__content">
-                  {isLoading ? <Spinner/> : <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById} onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}/>}
-                </div>}
-            </section>
-            <div className="cities__right-section">
-              <Map city={currentCity} points={sortedOffers} selectedPoint={selectedOffer} mapType='cities'/>
-            </div>
-          </div>
+          {isLoading ? <Spinner/> :
+            <div className="cities__places-container cities__places-container--empty container">
+              {isEmpty ? <MainEmpty cityName={currentCity.name}/> :
+                <>
+                  <section className="cities__places places">
+                    <h2 className="visually-hidden">Places</h2>
+                    <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
+                    <Sorting currentSort={currentFilter} onSortChange={handleFilterChange}/>
+                    {isError ? <ErrorMessage/> :
+                      <div className="cities__places-list places__list tabs__content">
+                        <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById} onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}/>
+                      </div>}
+                  </section>
+                  <div className="cities__right-section">
+                    <Map city={currentCity} points={sortedOffers} selectedPoint={selectedOffer} mapType='cities'/>
+                  </div>
+                </>}
+            </div>}
         </div>
       </main>
     </div>
