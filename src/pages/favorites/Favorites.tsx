@@ -6,14 +6,16 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchFavorites } from '../../store/api-actions';
 import { useMemo, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
+import { authStatus, favoritesSelector } from '../../store/selectors';
+import { FavoritesEmpty } from './favorites-empty/FavoritesEmpty';
 
 export const Favorites = () => {
 
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector((state) => state.favorite.offers);
+  const favorites = useAppSelector(favoritesSelector);
   const locationsFavorites = useMemo(() =>
     getLocationFaivoritesMap(favorites), [favorites]);
-  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
+  const authorizationStatus = useAppSelector(authStatus);
 
   const locationsFavoritesObject = Object.fromEntries(locationsFavorites.entries());
   const locationsFavoritesArray = Object.entries(locationsFavoritesObject);
@@ -33,13 +35,7 @@ export const Favorites = () => {
         <div className="page__favorites-container container">
           <section className={`favorites ${isEmpty ? 'favorites--empty' : null }`}>
             {isEmpty ?
-              <>
-                <h1 className="visually-hidden">Favorites (empty)</h1>
-                <div className="favorites__status-wrapper">
-                  <b className="favorites__status">Nothing yet saved.</b>
-                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
-                </div>
-              </> :
+              <FavoritesEmpty /> :
               <>
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">

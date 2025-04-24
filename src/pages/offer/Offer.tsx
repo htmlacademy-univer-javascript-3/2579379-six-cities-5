@@ -7,6 +7,7 @@ import { ReviewsList } from '../../components/reviews-list/ReviewsList';
 import { Map } from '../../components/map/Map';
 import { OffersList } from '../../components/offers-list/OffersList';
 import { useAppSelector } from '../../store/hooks';
+import { currentCitySelector, offersSelector } from '../../store/selectors';
 
 type OfferPrors = {
   reviews: Review[];
@@ -16,9 +17,9 @@ export const Offer = ({reviews}: OfferPrors) => {
 
   const {id} = useParams();
 
-  const offers = useAppSelector((state) => state.offers.offers);
+  const offers = useAppSelector(offersSelector);
   const offer = offers.find((item) => item.id === id);
-  const currentCity = useAppSelector((state) => state.offers.city);
+  const currentCity = useAppSelector(currentCitySelector);
 
   const closest = offers.filter((item) => item.id !== id);
 

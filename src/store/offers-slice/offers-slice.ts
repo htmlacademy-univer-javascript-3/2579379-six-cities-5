@@ -1,23 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addToFavorite, fetchOffersAction } from '../api-actions';
+import { addToFavorite, fetchOffersAction, removeFavorite } from '../api-actions';
 import { OfferType } from '../../types';
 import { City } from '../../types';
 import { cities } from '../../consts/cities';
+import { addOfferToFavorites, removeOfferFromFavorites } from '../favorite-slice/favorites-utils';
+import { Status } from '../../consts/consts';
 
 export type OffersStateType = {
   offers: OfferType[];
-  isLoading: boolean;
   city: City;
-  isError: boolean;
-  isEmpty: boolean;
+  status: Status;
 };
 
 const initialState: OffersStateType = {
   offers: [],
-  isLoading: false,
   city: cities.Paris,
-  isError: false,
-  isEmpty: true,
+  status: Status.Idle,
 };
 
 const offersSlice = createSlice({
@@ -31,31 +29,24 @@ const offersSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchOffersAction.pending, (state) => {
-        state.isLoading = true;
-        state.isError = false;
-        state.isEmpty = true;
+        state.status = Status.Loading;
       })
       .addCase(fetchOffersAction.fulfilled, (state, action) => {
         state.offers = action.payload;
-        state.isLoading = false;
-        state.isError = false;
         if (state.offers.length === 0){
-          state.isEmpty = true;
+          state.status = Status.Empty;
         } else {
-          state.isEmpty = false;
+          state.status = Status.Ready;
         }
       })
       .addCase(fetchOffersAction.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isEmpty = false;
+        state.status = Status.Error;
       })
       .addCase(addToFavorite.fulfilled, (state, action) => {
-        const favoriteOffer = action.payload;
-        const index = state.offers.findIndex((offer) => offer.id === favoriteOffer.id);
-        if (index !== -1) {
-          state.offers[index].isFavorite = favoriteOffer.isFavorite;
-        }
+        addOfferToFavorites(state, action.payload);
+      })
+      .addCase(removeFavorite.fulfilled, (state, action) => {
+        removeOfferFromFavorites(state, action.payload.id);
       });
   }
 });

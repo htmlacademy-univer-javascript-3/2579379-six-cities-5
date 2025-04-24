@@ -5,7 +5,8 @@ import { cardsSizes } from './Card.consts';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AuthorizationStatus } from '../../consts/consts';
 import { Navigate } from 'react-router-dom';
-import { addToFavorite } from '../../store/api-actions';
+import { addToFavorite, removeFavorite } from '../../store/api-actions';
+import { authStatus } from '../../store/selectors';
 
 type CardProps = {
   offer: OfferType;
@@ -18,14 +19,17 @@ type CardProps = {
 export const Card = ({offer, onMouseHover, onMouseLeave, size, cardType}: CardProps) => {
   const {id, title, type, price, isFavorite, isPremium, rating, previewImage} = offer;
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
+  const authorizationStatus = useAppSelector(authStatus);
 
   const handleFavoriteClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       return <Navigate to={AppRoute.Login} />;
     }
-    const status = offer.isFavorite ? 0 : 1;
-    dispatch(addToFavorite({ offerId: offer.id, status }));
+    if (offer.isFavorite) {
+      dispatch(removeFavorite(offer.id));
+    } else {
+      dispatch(addToFavorite(offer.id));
+    }
   };
 
   return (
