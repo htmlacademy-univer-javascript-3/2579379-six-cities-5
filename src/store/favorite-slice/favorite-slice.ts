@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchFavorites } from '../api-actions';
+import { addToFavorite, fetchFavorites, removeFavorite } from '../api-actions';
+import { addOfferToFavorites, removeOfferFromFavorites } from './favorites-utils';
 import { OfferType } from '../../types';
 
 export type OffersType = {
@@ -18,6 +19,12 @@ export const favoriteSlice = createSlice({
     builder
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.offers = action.payload;
+      })
+      .addCase(addToFavorite.fulfilled, (state, action) => {
+        addOfferToFavorites(state, action.payload);
+      })
+      .addCase(removeFavorite.fulfilled, (state, action) => {
+        removeOfferFromFavorites(state, action.payload.id);
       });
   }
 });
