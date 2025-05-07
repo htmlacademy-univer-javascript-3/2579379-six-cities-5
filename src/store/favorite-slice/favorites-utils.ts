@@ -14,7 +14,9 @@ export const removeOfferFromFavorites = (state: OffersType, offerId: string): vo
   state.offers = state.offers.filter((o) => o.id !== offerId);
 };
 
-export const updateOfferFavoriteStatus = (offers: OfferType[], updatedOffer: OfferType): OfferType[] =>
-  offers.map((offer) =>
+export const updateOfferFavoriteStatus = (offers: OffersType, updatedOffer: OfferType): OffersType =>{
+  offers.offers = offers.offers.map((offer) =>
     offer.id === updatedOffer.id ? { ...offer, isFavorite: updatedOffer.isFavorite } : offer
   );
+  return offers;
+};

@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts/consts';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { logout } from '../../store/api-actions';
+import { fetchFavorites, logout } from '../../store/api-actions';
 import { authStatus, favoritesSelector, userSelector } from '../../store/selectors';
+import { useEffect } from 'react';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,12 @@ export const Header = () => {
 
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const isLogin = location.pathname === AppRoute.Login.toString();
+
+  useEffect(() => {
+    if (isUserAuthorized) {
+      dispatch(fetchFavorites());
+    }
+  }, [isUserAuthorized, dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());

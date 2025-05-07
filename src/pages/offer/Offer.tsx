@@ -1,5 +1,4 @@
 import { Navigate, useParams } from 'react-router-dom';
-import { Header } from '../../components/header/Header';
 import { Review } from '../../types';
 import { AppRoute } from '../../consts/consts';
 import { ReviewsForm } from '../../components/reviews-form/ReviewForm';
@@ -29,7 +28,6 @@ export const Offer = ({reviews}: OfferPrors) => {
 
   return (
     <div className="page">
-      <Header/>
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
