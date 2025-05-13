@@ -11,16 +11,18 @@ import { Sorting } from '../../components/sorting/Sorting';
 import { Spinner } from '../../components/spinner/spinner';
 import { ErrorMessage } from '../../components/error/ErrorMessage';
 import { changeCity } from '../../store/offers-slice/offers-slice';
+import { MainEmpty } from '../../components/main-empty/MainEmpty';
+import { currentCitySelector, statusSelector, offersSelector } from '../../store/selectors';
+import { Status } from '../../consts/consts';
 
 export const Main = () => {
   const [activeCardId, setHoveredCardById] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
 
-  const offers = useAppSelector((state) => state.offers.offers);
-  const currentCity = useAppSelector((state) => state.offers.city);
-  const isLoading = useAppSelector((state) => state.offers.isLoading);
-  const isError = useAppSelector((state) => state.error.error);
+  const offers = useAppSelector(offersSelector);
+  const currentCity = useAppSelector(currentCitySelector);
+  const status = useAppSelector(statusSelector);
 
   const selectedOffer = offers.find((offer) => offer.id === activeCardId);
 
@@ -42,6 +44,30 @@ export const Main = () => {
     setCurrentFilter(Sorts.Popular);
   }, [dispatch]);
 
+  if (status === Status.Loading) {
+    return <Spinner />;
+  }
+
+  if (status === Status.Empty) {
+    return (
+      <div className="page page--gray page--main">
+        <main className="page__main page__main--index">
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="tabs">
+            <section className="locations container">
+              <CitiesList currentCity={currentCity} onChange={handleCityChange}/>
+            </section>
+          </div>
+          <div className="cities">
+            <div className="cities__places-container cities__places-container--empty container">
+              <MainEmpty cityName={currentCity.name} />
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
@@ -52,14 +78,14 @@ export const Main = () => {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
+          <div className="cities__places-container cities__places-container--empty container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{sortedOffers.length} places to stay in {currentCity.name}</b>
               <Sorting currentSort={currentFilter} onSortChange={handleFilterChange}/>
-              {isError ? <ErrorMessage/> :
+              {status === Status.Error ? <ErrorMessage/> :
                 <div className="cities__places-list places__list tabs__content">
-                  {isLoading ? <Spinner/> : <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById} onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}/>}
+                  <OffersList cardType='cities' offers={sortedOffers} onItemMouseHover={setHoveredCardById} onItemMouseLeave={() => setHoveredCardById(null)} size={'medium'}/>
                 </div>}
             </section>
             <div className="cities__right-section">

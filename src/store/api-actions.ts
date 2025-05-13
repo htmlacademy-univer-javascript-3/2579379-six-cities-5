@@ -57,7 +57,7 @@ export const fetchOffersAction = createAsyncThunk<OfferType[], void, ThunkType>(
   async (_arg, {dispatch, extra, rejectWithValue}) => {
     try {
       const {api} = extra;
-      const {data} = await api.get<OfferType[]>('/oflfers');
+      const {data} = await api.get<OfferType[]>('/offers');
       return data;
     } catch(err) {
       if (err instanceof Error) {
@@ -77,6 +77,40 @@ export const fetchFavorites = createAsyncThunk<OfferType[], void, ThunkType>(
       const {data} = await api.get<OfferType[]>('/favorite');
       return data;
     } catch(err) {
+      if (err instanceof Error) {
+        dispatch(errorHandler(err.message));
+      }
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const addToFavorite = createAsyncThunk<OfferType, string, ThunkType>(
+  'FAVORITES/addOffer',
+  async (offerId, { dispatch, extra, rejectWithValue }) => {
+    try {
+      const { api } = extra;
+      const { data } = await api.post<OfferType>(`/favorite/${offerId}/1`);
+      dispatch(fetchFavorites());
+      return data;
+    } catch (err) {
+      if (err instanceof Error) {
+        dispatch(errorHandler(err.message));
+      }
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const removeFavorite = createAsyncThunk<OfferType, string, ThunkType>(
+  'FAVORITES/removeOffer',
+  async (offerId, { dispatch, extra, rejectWithValue }) => {
+    try {
+      const { api } = extra;
+      const { data } = await api.post<OfferType>(`/favorite/${offerId}/0`);
+      dispatch(fetchFavorites());
+      return data;
+    } catch (err) {
       if (err instanceof Error) {
         dispatch(errorHandler(err.message));
       }

@@ -3,10 +3,11 @@ import { AuthorizationStatus, AppRoute } from '../../consts/consts';
 import { Navigate } from 'react-router-dom';
 import { FormEventHandler } from 'react';
 import { login } from '../../store/api-actions';
+import { authStatus } from '../../store/selectors';
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
+  const authorizationStatus = useAppSelector(authStatus);
 
   const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();

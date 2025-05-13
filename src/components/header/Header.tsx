@@ -1,17 +1,26 @@
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts/consts';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { logout } from '../../store/api-actions';
+import { fetchFavorites, logout } from '../../store/api-actions';
+import { authStatus, favoritesSelector, userSelector } from '../../store/selectors';
+import { useEffect } from 'react';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
-  const user = useAppSelector((state) => state.auth.user);
+  const authorizationStatus = useAppSelector(authStatus);
+  const user = useAppSelector(userSelector);
+  const favoritesCount = useAppSelector(favoritesSelector).length;
 
   const location = useLocation();
 
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const isLogin = location.pathname === AppRoute.Login.toString();
+
+  useEffect(() => {
+    if (isUserAuthorized) {
+      dispatch(fetchFavorites());
+    }
+  }, [isUserAuthorized, dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -40,7 +49,8 @@ export const Header = () => {
                       <span className="header__user-name user__name">
                         {user?.name}
                       </span>
-                      <span className="header__favorite-count">0</span>
+                      <span className="header__favorite-count">{favoritesCount}
+                      </span>
                     </Link>
                   </li>
                   <li className="header__nav-item">

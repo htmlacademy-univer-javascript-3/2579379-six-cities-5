@@ -6,17 +6,20 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchFavorites } from '../../store/api-actions';
 import { useMemo, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
+import { authStatus, favoritesSelector } from '../../store/selectors';
+import { FavoritesEmpty } from './favorites-empty/FavoritesEmpty';
 
 export const Favorites = () => {
 
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector((state) => state.favorite.offers);
-  const LocationsFavorites = useMemo(() =>
+  const favorites = useAppSelector(favoritesSelector);
+  const locationsFavorites = useMemo(() =>
     getLocationFaivoritesMap(favorites), [favorites]);
-  const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
+  const authorizationStatus = useAppSelector(authStatus);
 
-  const LocationsFavoritesObject = Object.fromEntries(LocationsFavorites.entries());
-  const LocationsFavoritesArray = Object.entries(LocationsFavoritesObject);
+  const locationsFavoritesObject = Object.fromEntries(locationsFavorites.entries());
+  const locationsFavoritesArray = Object.entries(locationsFavoritesObject);
+  const isEmpty = favorites.length === 0;
 
   useEffect(() => {
     dispatch(fetchFavorites());
@@ -28,13 +31,17 @@ export const Favorites = () => {
 
   return (
     <div className="page">
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites ${isEmpty ? 'page__main--favorites-empty' : null }`}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {LocationsFavoritesArray.map((lf) => <LocationFavorites key={lf[0]} city={lf[0]} favoriteOffers={lf[1]}/>)}
-            </ul>
+          <section className={`favorites ${isEmpty ? 'favorites--empty' : null }`}>
+            {isEmpty ?
+              <FavoritesEmpty /> :
+              <>
+                <h1 className="favorites__title">Saved listing</h1>
+                <ul className="favorites__list">
+                  {locationsFavoritesArray.map((lf) => <LocationFavorites key={lf[0]} city={lf[0]} favoriteOffers={lf[1]}/>)}
+                </ul>
+              </>}
           </section>
         </div>
       </main>

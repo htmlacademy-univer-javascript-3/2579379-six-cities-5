@@ -11,7 +11,7 @@ export const Sorting = ({currentSort, onSortChange}: SortProps) => {
   const types = Object.values(Sorts);
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0}
         onClick={() => setOpened((prev) => !prev)}
       >

@@ -35,3 +35,11 @@ export enum CityName {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf'
 }
+
+export enum Status {
+  Idle = 'idle',
+  Loading = 'loading',
+  Error = 'error',
+  Empty = 'empty',
+  Ready = 'ready'
+}
